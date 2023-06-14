@@ -130,7 +130,6 @@ export default {
 </script>
 
 <template>
-  <h1>Hello plugin!</h1>
   <div id="toDoListContainer" class="toDo-container">
     <div class="panel">
       <div class="toDo-header">Чек-лист</div>
