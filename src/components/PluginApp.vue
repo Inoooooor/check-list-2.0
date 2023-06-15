@@ -1,12 +1,8 @@
 <script>
 import HDE from '../plugin/index'
 
-// const { ticketValues } = HDE.getState()
-
-const setDoubleTime = (value) => {
-  if (value.toString().length < 2) return '0' + value
-  else return value
-}
+const setDoubleTime = (value) =>
+  value.toString().length < 2 ? '0' + value : value
 
 const dateGroup = (date, withTime) => {
   let minutes = setDoubleTime(date.getMinutes())
@@ -37,6 +33,7 @@ export default {
       fieldID: HDE.vars.fieldID,
       defaultCheckList: HDE.vars.defaultCheckList,
       ticketValues: HDE.getState().ticketValues,
+      activeNames: ['1'],
     }
   },
   mounted() {
@@ -125,54 +122,68 @@ export default {
         this.$refs.todoref[0].focus()
       })
     },
+    handleChange(val) {
+      console.log(val)
+    },
   },
 }
 </script>
 
 <template>
-  <div id="toDoListContainer" class="toDo-container">
-    <div class="panel">
-      <div class="toDo-header">Чек-лист</div>
-      <div>
-        <button class="add-button" @click="addItem()">+</button>
-      </div>
-    </div>
-    <div v-if="toDoList.length === 0" class="empty-text">Задач нет.</div>
-    <div v-if="toDoList.length > 0">
-      <div v-for="(item, index) in toDoList" :key="index" class="item">
-        <div class="item-container">
-          <div class="item-text">
-            <div>{{ index + 1 }}.</div>
-            <input
-              v-if="item.editing"
-              ref="todoref"
-              v-model="item.task"
-              class="task-editing"
-              placeholder="Не заполнено"
-              @focusout="disableAllEditing()"
-              @change="updateFieldData()"
-            />
-            <div
-              v-if="!item.editing"
-              :class="item.done ? 'finished task-text' : 'task-text'"
-              @click="editItem(index)"
-            >
-              <span v-if="!item.task">Не заполнено</span>
-              <span v-else> {{ item.task }} </span>
+  <div class="demo-collapse">
+    <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse-item title="Чек-лист" name="1">
+        <!-- <div>
+          Consistent with real life: in line with the process and logic of real
+          life, and comply with languages and habits that the users are used to;
+        </div> -->
+        <div id="toDoListContainer" class="toDo-container">
+          <div class="panel">
+            <div class="toDo-header">Чек-лист</div>
+            <div>
+              <button class="add-button" @click="addItem()">+</button>
             </div>
           </div>
-          <input
-            :checked="item.done"
-            type="checkbox"
-            class="checkbox"
-            @change="(e) => finishItem(e, index)"
-          />
+          <div v-if="toDoList.length === 0" class="empty-text">Задач нет.</div>
+          <div v-if="toDoList.length > 0">
+            <div v-for="(item, index) in toDoList" :key="index" class="item">
+              <div class="item-container">
+                <div class="item-text">
+                  <div>{{ index + 1 }}.</div>
+                  <input
+                    v-if="item.editing"
+                    ref="todoref"
+                    v-model="item.task"
+                    class="task-editing"
+                    placeholder="Не заполнено"
+                    @focusout="disableAllEditing()"
+                    @change="updateFieldData()"
+                  />
+                  <div
+                    v-if="!item.editing"
+                    :class="item.done ? 'finished task-text' : 'task-text'"
+                    @click="editItem(index)"
+                  >
+                    <span v-if="!item.task">Не заполнено</span>
+                    <span v-else> {{ item.task }} </span>
+                  </div>
+                </div>
+                <input
+                  :checked="item.done"
+                  type="checkbox"
+                  class="checkbox"
+                  @change="(e) => finishItem(e, index)"
+                />
+              </div>
+              <div v-if="item.done" class="info">
+                выполнил(a) {{ item.doneData.executor }}
+                {{ item.doneData.date }}
+              </div>
+            </div>
+          </div>
         </div>
-        <div v-if="item.done" class="info">
-          выполнил(a) {{ item.doneData.executor }} {{ item.doneData.date }}
-        </div>
-      </div>
-    </div>
+      </el-collapse-item>
+    </el-collapse>
   </div>
 </template>
 
