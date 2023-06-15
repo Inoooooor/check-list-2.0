@@ -1,13 +1,8 @@
 <script>
 import HDE from '../plugin/index'
-import { useCheckListsStore } from '../stores/checkLists'
 
 export default {
   name: 'ToDoListContainer',
-  setup() {
-    const store = useCheckListsStore()
-    console.log('checklist', store.checkLists)
-  },
   data: () => {
     return {
       toDoList: [],
@@ -19,9 +14,28 @@ export default {
   },
   mounted() {
     this.initToDoList()
-    // const checklistData = window.parent.document.querySelector(
-    //   `#ticket-custom-field-${this.fieldID}`
-    // )
+    const checklistData = window.parent.document.querySelector(
+      `#ticket-custom-field-${this.fieldID}`
+    )
+
+    const config = {
+      attributes: true,
+    }
+
+    const callback = function (mutationsList) {
+      for (let mutation of mutationsList) {
+        console.log(`The ${mutation.attributeName} attribute was modified.`)
+      }
+    }
+
+    const observer = new MutationObserver(callback)
+
+    observer.observe(checklistData, config)
+
+    console.log(checklistData)
+    checklistData.addEventListener('input', () => {
+      console.log('checklistChanged')
+    })
   },
   methods: {
     addItem() {

@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
 import HDE from './plugin/index'
 
@@ -8,8 +9,10 @@ HDE.on('ready', function () {
     plugin.showButton = true
     HDE.emit('setPlugin', plugin)
 
+    const pinia = createPinia()
     const app = createApp(App)
 
+    app.use(pinia)
     app.mount('#app')
   }
 })
