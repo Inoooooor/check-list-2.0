@@ -1,30 +1,6 @@
 <script>
 import HDE from '../plugin/index'
 
-const setDoubleTime = (value) =>
-  value.toString().length < 2 ? '0' + value : value
-
-const dateGroup = (date, withTime) => {
-  let minutes = setDoubleTime(date.getMinutes())
-  let hours = setDoubleTime(date.getHours())
-  let day = setDoubleTime(date.getDate())
-  let month = setDoubleTime(date.getMonth() + 1)
-  if (withTime)
-    return (
-      day +
-      '.' +
-      month +
-      '.' +
-      date.getFullYear() +
-      ' ' +
-      hours +
-      ':' +
-      minutes +
-      ' '
-    )
-  else return day + '.' + month + '.' + date.getFullYear()
-}
-
 export default {
   name: 'ToDoListContainer',
   data: () => {
@@ -67,7 +43,7 @@ export default {
       ).name
       this.toDoList[index].done = e.target.checked
       if (e.target.checked) {
-        this.toDoList[index].doneData.date = dateGroup(new Date(), true)
+        this.toDoList[index].doneData.date = this.dateGroup(new Date(), true)
         this.toDoList[index].doneData.executor = executor
       } else {
         this.toDoList[index].doneData.date = ''
@@ -125,6 +101,18 @@ export default {
     handleChange(val) {
       console.log(val)
     },
+    dateGroup(date, withTime) {
+      let minutes = this.setDoubleTime(date.getMinutes())
+      let hours = this.setDoubleTime(date.getHours())
+      let day = this.setDoubleTime(date.getDate())
+      let month = this.setDoubleTime(date.getMonth() + 1)
+      return withTime
+        ? `${day}.${month}.${date.getFullYear()} ${hours}:${minutes} `
+        : `${day}.${month}.${date.getFullYear()}`
+    },
+    setDoubleTime(value) {
+      return value.toString().padStart(2, '0')
+    },
   },
 }
 </script>
@@ -133,10 +121,6 @@ export default {
   <div class="demo-collapse">
     <el-collapse v-model="activeNames" @change="handleChange">
       <el-collapse-item title="Чек-лист" name="1">
-        <!-- <div>
-          Consistent with real life: in line with the process and logic of real
-          life, and comply with languages and habits that the users are used to;
-        </div> -->
         <div id="toDoListContainer" class="toDo-container">
           <div class="panel">
             <div class="toDo-header">Чек-лист</div>
