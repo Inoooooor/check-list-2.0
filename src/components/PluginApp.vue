@@ -144,8 +144,8 @@ export default {
               <button class="add-button" @click="addItem()">+</button>
             </div>
           </div>
-          <div v-if="toDoList.length === 0" class="empty-text">Задач нет.</div>
-          <div v-if="toDoList.length > 0">
+          <div v-if="!toDoList.length" class="empty-text">Задач нет.</div>
+          <div v-else>
             <div v-for="(item, index) in toDoList" :key="index" class="item">
               <div class="item-container">
                 <div class="item-text">
