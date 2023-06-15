@@ -30,7 +30,7 @@ const dateGroup = (date, withTime) => {
 }
 
 export default {
-  name: '#toDoListContainer',
+  name: 'ToDoListContainer',
   data: () => {
     return {
       toDoList: [],
@@ -139,16 +139,16 @@ export default {
     </div>
     <div v-if="toDoList.length === 0" class="empty-text">Задач нет.</div>
     <div v-if="toDoList.length > 0">
-      <div class="item" v-for="(item, index) in toDoList" :key="index">
+      <div v-for="(item, index) in toDoList" :key="index" class="item">
         <div class="item-container">
           <div class="item-text">
             <div>{{ index + 1 }}.</div>
             <input
               v-if="item.editing"
+              ref="todoref"
               v-model="item.task"
               class="task-editing"
               placeholder="Не заполнено"
-              ref="todoref"
               @focusout="disableAllEditing()"
               @change="updateFieldData()"
             />
