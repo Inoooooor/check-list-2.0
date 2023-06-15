@@ -9,10 +9,14 @@ export default {
       type: String,
       required: true,
     },
+    checklistIndex: {
+      type: Number,
+      required: true,
+    },
   },
   setup() {
     const store = useCheckListsStore()
-    console.log('checklist', store.checkLists)
+    return { store }
   },
   data: () => {
     return {
@@ -25,6 +29,7 @@ export default {
   },
   mounted() {
     this.initToDoList()
+    console.log('checklist-index', this.checklistIndex)
     // const checklistData = window.parent.document.querySelector(
     //   `#ticket-custom-field-${this.fieldID}`
     // )
@@ -69,7 +74,9 @@ export default {
       this.updateFieldData()
     },
     initToDoList() {
-      let dataField = this.ticketValues.customFields[this.fieldID]
+      // ЗДЕСЬ в dataField ДОЛЖЕН ОТПРАВЛЯТЬСЯ МАССИВ ИЗ КАСТОМ ПОЛЕЙ ТИКЕТА!!!
+      let dataField = this.store.checkLists[this.checklistIndex].checklist
+      console.log('dataField', dataField)
       if (this.defaultCheckList && !dataField) {
         this.defaultCheckList.split(';').forEach((element) => {
           this.toDoList.push({
@@ -83,9 +90,7 @@ export default {
           })
         })
       }
-      if (dataField) {
-        this.toDoList = JSON.parse(dataField)
-      }
+      if (dataField) this.toDoList = dataField
       // window.parent.document.querySelector(
       //   `#ticket-custom-field-${this.fieldID}`
       // ).parentElement.parentElement.parentElement.parentElement.style.display =
@@ -94,7 +99,7 @@ export default {
     updateFieldData() {
       HDE.emit('setTicketCustomFieldValue', {
         customFieldId: this.fieldID,
-        value: JSON.stringify(this.toDoList),
+        value: JSON.stringify(this.store.checkLists),
       })
       this.disableAllEditing()
     },

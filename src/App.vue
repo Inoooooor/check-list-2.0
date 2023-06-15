@@ -12,7 +12,7 @@ console.log('App', store.checkLists)
 <template>
   <div class="plugin">
     <template v-for="(checklist, index) in store.checkLists" :key="index">
-      <PluginApp :checklist-name="checklist.name" />
+      <PluginApp :checklist-name="checklist.name" :checklist-index="index" />
     </template>
     <!-- <PluginApp /> -->
   </div>
