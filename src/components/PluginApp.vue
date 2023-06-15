@@ -13,12 +13,11 @@ export default {
     }
   },
   mounted() {
-    console.log(HDE.vars.fieldID)
     this.initToDoList()
   },
   methods: {
     addItem() {
-      this.toDoList.push({
+      const toDoItem = {
         task: '',
         done: false,
         doneData: {
@@ -26,7 +25,9 @@ export default {
           date: '',
         },
         editing: true,
-      })
+      }
+
+      this.toDoList.push(toDoItem)
       this.focusOnCurInput()
     },
     finishItem(e, index) {
