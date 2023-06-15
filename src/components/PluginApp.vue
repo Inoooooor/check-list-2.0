@@ -4,6 +4,12 @@ import { useCheckListsStore } from '../stores/checkLists'
 
 export default {
   name: 'ToDoListContainer',
+  props: {
+    checklistName: {
+      type: String,
+      required: true,
+    },
+  },
   setup() {
     const store = useCheckListsStore()
     console.log('checklist', store.checkLists)
@@ -129,7 +135,7 @@ export default {
 <template>
   <div class="demo-collapse">
     <el-collapse v-model="activeNames" @change="handleChange">
-      <el-collapse-item title="Чек-лист" name="1">
+      <el-collapse-item :title="checklistName" name="1">
         <div id="toDoListContainer" class="toDo-container">
           <div class="panel">
             <div class="toDo-header">Чек-лист</div>
