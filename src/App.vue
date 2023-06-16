@@ -8,6 +8,8 @@ const store = useToDoListStore()
 console.log(HDE)
 console.log('App', store.toDoLists)
 
+console.log(Object.entries(HDE.vars))
+
 store.initToDoLists()
 </script>
 
