@@ -5,22 +5,23 @@ import HDE from '../plugin'
 export const useToDoListStore = defineStore('toDoLists', () => {
   const { fieldID } = HDE.vars
 
-  // console.log('pinia ticket', HDE.getState().ticketValues.customFields[fieldID])
-
   const toDoLists = ref(null)
 
   const makeChecklist = (hdeVarValue) => {
     const checklistItems = []
-    hdeVarValue.split(';').forEach((element) => {
-      checklistItems.push({
-        task: element,
+    const toDoItem = (taskName) => {
+      return {
+        task: taskName,
         done: false,
         doneData: {
           executor: '',
           date: '',
         },
         editing: false,
-      })
+      }
+    }
+    hdeVarValue.split(';').forEach((element) => {
+      checklistItems.push(toDoItem(element))
     })
     return checklistItems
   }
@@ -53,14 +54,12 @@ export const useToDoListStore = defineStore('toDoLists', () => {
 
   const initToDoLists = () => {
     const customFieldData = HDE.getState().ticketValues.customFields[fieldID]
-    const initData = JSON.parse(HDE.vars.Pinia)
 
     if (customFieldData) toDoLists.value = JSON.parse(customFieldData)
 
     console.log('from init', toDoLists.value)
-    console.log('initData', initData)
 
-    if (initData && !customFieldData) toDoLists.value = initData
+    if (!customFieldData) toDoLists.value = TESTinitToDoLists(HDE.vars)
   }
 
   return { toDoLists, initToDoLists }

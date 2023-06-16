@@ -143,7 +143,7 @@ export default {
       <el-collapse-item :title="toDoName" name="1">
         <div id="toDoListContainer" class="toDo-container">
           <div class="panel">
-            <div class="toDo-header">Чек-лист</div>
+            <div class="toDo-header">Добавить пункт</div>
             <div>
               <button class="add-button" @click="addItem()">+</button>
             </div>
