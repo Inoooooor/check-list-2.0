@@ -27,6 +27,15 @@ export default {
       activeNames: ['1'],
     }
   },
+  computed: {
+    completedTasks() {
+      return (
+        (this.toDoList.filter((item) => item.done).length /
+          this.toDoList.length) *
+        100
+      ).toFixed()
+    },
+  },
   mounted() {
     this.initToDoList()
     console.log('checklist-index', this.toDoIndex)
@@ -140,6 +149,12 @@ export default {
 <template>
   <div class="demo-collapse">
     <el-collapse v-model="activeNames" @change="handleChange">
+      <el-progress
+        :percentage="completedTasks"
+        :stroke-width="17"
+        :show-text="false"
+        color="#23869b"
+      />
       <el-collapse-item :title="toDoName" name="1">
         <div id="toDoListContainer" class="toDo-container">
           <div class="panel">
