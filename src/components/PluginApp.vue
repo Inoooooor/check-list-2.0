@@ -149,13 +149,21 @@ export default {
 <template>
   <div class="demo-collapse">
     <el-collapse v-model="activeNames" @change="handleChange">
-      <el-progress
+      <!-- <el-progress
         :percentage="completedTasks"
-        :stroke-width="17"
         :show-text="false"
         color="#23869b"
-      />
-      <el-collapse-item :title="toDoName" name="1">
+      /> -->
+      <el-collapse-item name="1">
+        <template #title>
+          {{ toDoName }}
+          <el-progress
+            :percentage="completedTasks"
+            :show-text="false"
+            color="#23869b"
+            class="progress-bar"
+          />
+        </template>
         <div id="toDoListContainer" class="toDo-container">
           <div class="panel">
             <div class="toDo-header">Добавить пункт</div>
@@ -209,6 +217,11 @@ export default {
 <style lang="scss" scoped>
 * {
   font-family: Arial;
+}
+
+.progress-bar {
+  width: 200px;
+  margin-left: 100px;
 }
 
 .empty-text {
