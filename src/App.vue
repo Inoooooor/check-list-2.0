@@ -1,18 +1,20 @@
 <script setup>
 import PluginApp from './components/PluginApp.vue'
-import { useCheckListsStore } from './stores/checkLists'
+import { useToDoListStore } from './stores/checkLists'
 import HDE from './plugin'
 
-const store = useCheckListsStore()
+const store = useToDoListStore()
 
 console.log(HDE)
-console.log('App', store.checkLists)
+console.log('App', store.toDoLists)
+
+store.initToDoLists()
 </script>
 
 <template>
   <div class="plugin">
-    <template v-for="(checklist, index) in store.checkLists" :key="index">
-      <PluginApp :checklist-name="checklist.name" :checklist-index="index" />
+    <template v-for="(checklist, index) in store.toDoLists" :key="index">
+      <PluginApp :to-do-name="checklist.name" :to-do-index="index" />
     </template>
     <!-- <PluginApp /> -->
   </div>

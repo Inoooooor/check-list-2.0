@@ -1,21 +1,21 @@
 <script>
 import HDE from '../plugin/index'
-import { useCheckListsStore } from '../stores/checkLists'
+import { useToDoListStore } from '../stores/checkLists'
 
 export default {
   name: 'ToDoListContainer',
   props: {
-    checklistName: {
+    toDoName: {
       type: String,
       required: true,
     },
-    checklistIndex: {
+    toDoIndex: {
       type: Number,
       required: true,
     },
   },
   setup() {
-    const store = useCheckListsStore()
+    const store = useToDoListStore()
     return { store }
   },
   data: () => {
@@ -29,7 +29,7 @@ export default {
   },
   mounted() {
     this.initToDoList()
-    console.log('checklist-index', this.checklistIndex)
+    console.log('checklist-index', this.toDoIndex)
     // const checklistData = window.parent.document.querySelector(
     //   `#ticket-custom-field-${this.fieldID}`
     // )
@@ -75,22 +75,22 @@ export default {
     },
     initToDoList() {
       // ЗДЕСЬ в dataField ДОЛЖЕН ОТПРАВЛЯТЬСЯ МАССИВ ИЗ КАСТОМ ПОЛЕЙ ТИКЕТА!!!
-      let dataField = this.store.checkLists[this.checklistIndex].checklist
-      console.log('dataField', dataField)
-      if (this.defaultCheckList && !dataField) {
-        this.defaultCheckList.split(';').forEach((element) => {
-          this.toDoList.push({
-            task: element,
-            done: false,
-            doneData: {
-              executor: '',
-              date: '',
-            },
-            editing: false,
-          })
-        })
-      }
-      if (dataField) this.toDoList = dataField
+      // let dataField = this.store.checkLists[this.checklistIndex].checklist
+      // console.log('dataField', dataField)
+      // if (this.defaultCheckList && !dataField) {
+      //   this.defaultCheckList.split(';').forEach((element) => {
+      //     this.toDoList.push({
+      //       task: element,
+      //       done: false,
+      //       doneData: {
+      //         executor: '',
+      //         date: '',
+      //       },
+      //       editing: false,
+      //     })
+      //   })
+      // }
+      this.toDoList = this.store.toDoLists[this.toDoIndex].checklist
       // window.parent.document.querySelector(
       //   `#ticket-custom-field-${this.fieldID}`
       // ).parentElement.parentElement.parentElement.parentElement.style.display =
@@ -99,7 +99,7 @@ export default {
     updateFieldData() {
       HDE.emit('setTicketCustomFieldValue', {
         customFieldId: this.fieldID,
-        value: JSON.stringify(this.store.checkLists),
+        value: JSON.stringify(this.store.toDoLists),
       })
       this.disableAllEditing()
     },
@@ -140,7 +140,7 @@ export default {
 <template>
   <div class="demo-collapse">
     <el-collapse v-model="activeNames" @change="handleChange">
-      <el-collapse-item :title="checklistName" name="1">
+      <el-collapse-item :title="toDoName" name="1">
         <div id="toDoListContainer" class="toDo-container">
           <div class="panel">
             <div class="toDo-header">Чек-лист</div>
