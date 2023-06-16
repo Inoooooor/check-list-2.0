@@ -1,6 +1,6 @@
 <script>
 import HDE from '../plugin/index'
-import { useToDoListStore } from '../stores/checkLists'
+import { useToDoListStore } from '../stores/toDoLists'
 
 export default {
   name: 'ToDoListContainer',

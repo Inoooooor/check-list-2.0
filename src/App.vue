@@ -1,6 +1,6 @@
 <script setup>
 import PluginApp from './components/PluginApp.vue'
-import { useToDoListStore } from './stores/checkLists'
+import { useToDoListStore } from './stores/toDoLists'
 import HDE from './plugin'
 
 const store = useToDoListStore()
