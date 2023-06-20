@@ -5,9 +5,17 @@ import HDE from './plugin'
 
 const store = useToDoListStore()
 
-console.log(HDE.getState())
+const hideCustomField = () => {
+  const { fieldID } = HDE.vars
+  window.parent.document.querySelector(
+    `#ticket-custom-field-${fieldID}`
+  ).parentElement.parentElement.parentElement.parentElement.style.display =
+    'none'
+}
 
 store.initToDoLists()
+
+hideCustomField()
 </script>
 
 <template>
@@ -15,7 +23,6 @@ store.initToDoLists()
     <template v-for="(checklist, index) in store.toDoLists" :key="index">
       <PluginApp :to-do-name="checklist.name" :to-do-index="index" />
     </template>
-    <!-- <PluginApp /> -->
   </div>
 </template>
 
