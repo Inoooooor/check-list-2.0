@@ -26,9 +26,7 @@ export const useToDoListStore = defineStore('toDoLists', () => {
     return checklistItems
   }
 
-  console.log(makeChecklist('Сделать4;Сделать5;Сделать6'))
-
-  const TESTinitToDoLists = (hdeVarsObj) => {
+  const initDefaultLists = (hdeVarsObj) => {
     const listEntries = Object.entries(hdeVarsObj)
     console.log('listEntries', listEntries)
 
@@ -37,26 +35,26 @@ export const useToDoListStore = defineStore('toDoLists', () => {
       return !filterNames.includes(hdeVarName)
     }
 
-    const filteredVars = listEntries.filter((hdeVar) => isToDoList(hdeVar[0]))
+    const varsForLists = listEntries.filter((hdeVar) => isToDoList(hdeVar[0]))
 
-    const TESTtoDoLists = filteredVars.map((list) => {
+    const defaultLists = varsForLists.map((list) => {
       return { name: list[0], checklist: makeChecklist(list[1]) }
     })
 
-    console.log('TESTchecklists', TESTtoDoLists)
+    console.log('TESTchecklists', defaultLists)
 
-    console.log('filtered', filteredVars)
+    console.log('filtered', varsForLists)
 
-    return TESTtoDoLists
+    return defaultLists
   }
 
-  TESTinitToDoLists(HDE.vars)
+  initDefaultLists(HDE.vars)
 
   const initToDoLists = () => {
     const customFieldData = HDE.getState().ticketValues.customFields[fieldID]
 
     if (customFieldData) toDoLists.value = JSON.parse(customFieldData)
-    else toDoLists.value = TESTinitToDoLists(HDE.vars)
+    else toDoLists.value = initDefaultLists(HDE.vars)
 
     console.log('from init', toDoLists.value)
   }

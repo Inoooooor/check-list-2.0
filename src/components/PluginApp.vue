@@ -39,9 +39,6 @@ export default {
   mounted() {
     this.initToDoList()
     console.log('checklist-index', this.toDoIndex)
-    // const checklistData = window.parent.document.querySelector(
-    //   `#ticket-custom-field-${this.fieldID}`
-    // )
   },
   methods: {
     addItem() {
@@ -83,27 +80,7 @@ export default {
       this.updateFieldData()
     },
     initToDoList() {
-      // ЗДЕСЬ в dataField ДОЛЖЕН ОТПРАВЛЯТЬСЯ МАССИВ ИЗ КАСТОМ ПОЛЕЙ ТИКЕТА!!!
-      // let dataField = this.store.checkLists[this.checklistIndex].checklist
-      // console.log('dataField', dataField)
-      // if (this.defaultCheckList && !dataField) {
-      //   this.defaultCheckList.split(';').forEach((element) => {
-      //     this.toDoList.push({
-      //       task: element,
-      //       done: false,
-      //       doneData: {
-      //         executor: '',
-      //         date: '',
-      //       },
-      //       editing: false,
-      //     })
-      //   })
-      // }
       this.toDoList = this.store.toDoLists[this.toDoIndex].checklist
-      // window.parent.document.querySelector(
-      //   `#ticket-custom-field-${this.fieldID}`
-      // ).parentElement.parentElement.parentElement.parentElement.style.display =
-      //   'none'
     },
     updateFieldData() {
       HDE.emit('setTicketCustomFieldValue', {
