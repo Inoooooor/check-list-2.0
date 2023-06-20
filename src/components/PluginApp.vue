@@ -112,6 +112,7 @@ export default {
       let hours = this.setDoubleTime(date.getHours())
       let day = this.setDoubleTime(date.getDate())
       let month = this.setDoubleTime(date.getMonth() + 1)
+
       return withTime
         ? `${day}.${month}.${date.getFullYear()} ${hours}:${minutes} `
         : `${day}.${month}.${date.getFullYear()}`

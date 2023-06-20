@@ -20,9 +20,12 @@ export const useToDoListStore = defineStore('toDoLists', () => {
         editing: false,
       }
     }
-    hdeVarValue.split(';').forEach((element) => {
-      checklistItems.push(toDoItem(element))
-    })
+    hdeVarValue
+      .toString()
+      .split(';')
+      .forEach((element) => {
+        checklistItems.push(toDoItem(element))
+      })
     return checklistItems
   }
 
@@ -31,7 +34,7 @@ export const useToDoListStore = defineStore('toDoLists', () => {
     console.log('listEntries', listEntries)
 
     const isToDoList = (hdeVarName) => {
-      const filterNames = ['fieldID', 'defaultCheckList', 'Pinia']
+      const filterNames = ['fieldID']
       return !filterNames.includes(hdeVarName)
     }
 
