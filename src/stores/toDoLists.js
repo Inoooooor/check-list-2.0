@@ -23,9 +23,7 @@ export const useToDoListStore = defineStore('toDoLists', () => {
     hdeVarValue
       .toString()
       .split(';')
-      .forEach((element) => {
-        checklistItems.push(toDoItem(element))
-      })
+      .forEach((element) => checklistItems.push(toDoItem(element)))
     return checklistItems
   }
 
@@ -50,8 +48,6 @@ export const useToDoListStore = defineStore('toDoLists', () => {
 
     return defaultLists
   }
-
-  initDefaultLists(HDE.vars)
 
   const initToDoLists = () => {
     const customFieldData = HDE.getState().ticketValues.customFields[fieldID]
