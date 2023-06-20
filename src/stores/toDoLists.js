@@ -56,10 +56,9 @@ export const useToDoListStore = defineStore('toDoLists', () => {
     const customFieldData = HDE.getState().ticketValues.customFields[fieldID]
 
     if (customFieldData) toDoLists.value = JSON.parse(customFieldData)
+    else toDoLists.value = TESTinitToDoLists(HDE.vars)
 
     console.log('from init', toDoLists.value)
-
-    if (!customFieldData) toDoLists.value = TESTinitToDoLists(HDE.vars)
   }
 
   return { toDoLists, initToDoLists }

@@ -5,7 +5,7 @@ import HDE from './plugin'
 
 const store = useToDoListStore()
 
-console.log(HDE)
+console.log(HDE.getState())
 console.log('App', store.toDoLists)
 
 console.log(Object.entries(HDE.vars))

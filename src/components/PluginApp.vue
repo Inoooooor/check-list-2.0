@@ -147,16 +147,11 @@ export default {
 </script>
 
 <template>
-  <div class="demo-collapse">
-    <el-collapse v-model="activeNames" @change="handleChange">
-      <!-- <el-progress
-        :percentage="completedTasks"
-        :show-text="false"
-        color="#23869b"
-      /> -->
+  <div class="collapse">
+    <el-collapse @change="handleChange">
       <el-collapse-item name="1">
         <template #title>
-          {{ toDoName }}
+          <p class="title-name">{{ toDoName }}</p>
           <el-progress
             :percentage="completedTasks"
             :show-text="false"
@@ -220,8 +215,9 @@ export default {
 }
 
 .progress-bar {
-  width: 200px;
-  margin-left: 100px;
+  // width: 150px;
+  margin-left: 10px;
+  flex-basis: 30%;
 }
 
 .empty-text {
@@ -318,5 +314,11 @@ export default {
 
 .item {
   margin-bottom: 6px;
+}
+
+.title-name {
+  padding-left: 10px;
+  flex-basis: 40%;
+  line-height: 1rem;
 }
 </style>
