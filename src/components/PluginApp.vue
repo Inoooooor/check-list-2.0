@@ -199,6 +199,10 @@ export default {
   font-family: Arial;
 }
 
+.collapse {
+  min-width: 500px;
+}
+
 .progress-bar {
   margin-left: 10px;
   flex-basis: 20%;
