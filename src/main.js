@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 import HDE from './plugin/index'
+import './assets/style.scss'
 
 HDE.on('ready', function () {
   if (HDE.getState().formType !== 'create') {
