@@ -1,9 +1,11 @@
+$scroll-size: 6px;
+
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: $scroll-size;
+  height: $scroll-size;
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: rgba(170, 170, 170, 0.5);
-  border-radius: 6px;
+  border-radius: $scroll-size;
 }
