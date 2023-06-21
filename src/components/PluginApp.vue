@@ -25,6 +25,7 @@ export default {
       defaultCheckList: HDE.vars.defaultCheckList,
       ticketValues: HDE.getState().ticketValues,
       activeNames: ['1'],
+      DEV: import.meta.env.DEV,
     }
   },
   computed: {
@@ -38,7 +39,7 @@ export default {
   },
   mounted() {
     this.initToDoList()
-    console.log('checklist-index', this.toDoIndex)
+    if (this.DEV) console.log('checklist-index', this.toDoIndex)
   },
   methods: {
     addItem() {
@@ -104,9 +105,6 @@ export default {
         this.$refs.todoref[0].focus()
       })
     },
-    handleChange(val) {
-      console.log(val)
-    },
     dateGroup(date, withTime) {
       let minutes = this.setDoubleTime(date.getMinutes())
       let hours = this.setDoubleTime(date.getHours())
@@ -126,7 +124,7 @@ export default {
 
 <template>
   <div class="collapse">
-    <el-collapse @change="handleChange">
+    <el-collapse>
       <el-collapse-item name="1">
         <template #title>
           <p class="title-name">{{ toDoName }}</p>

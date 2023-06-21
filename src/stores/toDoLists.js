@@ -3,9 +3,8 @@ import { ref } from 'vue'
 import HDE from '../plugin'
 
 export const useToDoListStore = defineStore('toDoLists', () => {
-  const { fieldID } = HDE.vars
-
   const toDoLists = ref(null)
+  const DEV = import.meta.env.DEV
 
   const makeChecklist = (hdeVarValue) => {
     const checklistItems = []
@@ -29,7 +28,6 @@ export const useToDoListStore = defineStore('toDoLists', () => {
 
   const initDefaultLists = (hdeVarsObj) => {
     const listEntries = Object.entries(hdeVarsObj)
-    console.log('listEntries', listEntries)
 
     const isToDoList = (hdeVarName) => {
       const filterNames = ['fieldID']
@@ -42,20 +40,24 @@ export const useToDoListStore = defineStore('toDoLists', () => {
       return { name: list[0], checklist: makeChecklist(list[1]) }
     })
 
-    console.log('TESTchecklists', defaultLists)
-
-    console.log('filtered', varsForLists)
+    if (DEV) {
+      console.log('listEntries', listEntries)
+      console.log('TESTchecklists', defaultLists)
+      console.log('filtered', varsForLists)
+    }
 
     return defaultLists
   }
 
   const initToDoLists = () => {
+    const { fieldID } = HDE.vars
+
     const customFieldData = HDE.getState().ticketValues.customFields[fieldID]
 
     if (customFieldData) toDoLists.value = JSON.parse(customFieldData)
     else toDoLists.value = initDefaultLists(HDE.vars)
 
-    console.log('from init', toDoLists.value)
+    if (DEV) console.log('from init', toDoLists.value)
   }
 
   return { toDoLists, initToDoLists }
