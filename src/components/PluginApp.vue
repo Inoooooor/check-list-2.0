@@ -29,12 +29,18 @@ export default {
     }
   },
   computed: {
-    completedTasks() {
+    listProgress() {
       return (
         (this.toDoList.filter((item) => item.done).length /
           this.toDoList.length) *
         100
       ).toFixed()
+    },
+    completedTasks() {
+      return this.toDoList.filter((item) => item.done).length
+    },
+    tasksAmount() {
+      return this.toDoList.length
     },
   },
   mounted() {
@@ -129,11 +135,14 @@ export default {
         <template #title>
           <p class="title-name">{{ toDoName }}</p>
           <el-progress
-            :percentage="completedTasks"
+            :percentage="listProgress"
             :show-text="false"
             color="#23869b"
             class="progress-bar"
           />
+          <p class="progress-bar-text">
+            Выполнено {{ completedTasks }} из {{ tasksAmount }}
+          </p>
         </template>
         <div id="toDoListContainer" class="toDo-container">
           <div class="panel">
@@ -191,9 +200,8 @@ export default {
 }
 
 .progress-bar {
-  // width: 150px;
   margin-left: 10px;
-  flex-basis: 30%;
+  flex-basis: 20%;
 }
 
 .empty-text {
@@ -294,7 +302,11 @@ export default {
 
 .title-name {
   padding-left: 10px;
-  flex-basis: 40%;
+  flex-basis: 30%;
   line-height: 1rem;
+}
+
+.progress-bar-text {
+  margin-left: 10px;
 }
 </style>
