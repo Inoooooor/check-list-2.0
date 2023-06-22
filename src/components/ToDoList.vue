@@ -312,5 +312,6 @@ export default {
 
 .progress-bar-text {
   margin-left: 10px;
+  font-size: 11px;
 }
 </style>
