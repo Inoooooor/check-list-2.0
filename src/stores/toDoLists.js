@@ -36,6 +36,9 @@ export const useToDoListStore = defineStore('toDoLists', () => {
 
     const varsForLists = listEntries.filter((hdeVar) => isToDoList(hdeVar[0]))
 
+    if (!varsForLists.length)
+      throw new Error('Отстутсвуют чек-листы в настройках плагина')
+
     const defaultLists = varsForLists.map((list) => {
       return { name: list[0], checklist: makeChecklist(list[1]) }
     })
@@ -51,6 +54,8 @@ export const useToDoListStore = defineStore('toDoLists', () => {
 
   const initToDoLists = () => {
     const { fieldID } = HDE.vars
+
+    if (!fieldID) throw new Error('Отстутвует переменная fieldID')
 
     const customFieldData = HDE.getState().ticketValues.customFields[fieldID]
 
