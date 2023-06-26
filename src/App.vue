@@ -2,6 +2,7 @@
 import ToDoList from './components/ToDoList.vue'
 import { useToDoListStore } from './stores/toDoLists'
 import HDE from './plugin'
+console.log(HDE.getState())
 
 const store = useToDoListStore()
 

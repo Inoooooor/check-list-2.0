@@ -46,6 +46,7 @@ export default {
   mounted() {
     this.initToDoList()
     if (this.DEV) console.log('checklist-index', this.toDoIndex)
+    // this.updatePluginWebhook()
   },
   methods: {
     addItem() {
@@ -95,6 +96,30 @@ export default {
         value: JSON.stringify(this.store.toDoLists),
       })
       this.disableAllEditing()
+      this.updatePluginWebhook()
+    },
+    async updatePluginWebhook() {
+      const { ticketId } = HDE.getState()
+      console.log(ticketId)
+      const webHookUrl =
+        'https://devtest.helpdeskeddy.com/api/v2/plugins/BgyciywBaBqPuiXoJXac/todo-list'
+      await HDE.request({
+        url: webHookUrl,
+        method: 'POST',
+        contentType: 'application/json',
+        data: {
+          ticketId: ticketId,
+          toDoListData: JSON.stringify(this.store.toDoLists),
+        },
+      })
+      console.log('SENT TO WEBHOOK')
+
+      const { data } = await HDE.webhook({
+        endpoint: 'todo-list',
+        value: ticketId,
+      })
+
+      console.log('GET INFO FROM WH', data.data)
     },
     editItem(index) {
       if (!this.toDoList[index].done) {
