@@ -100,11 +100,10 @@ export default {
     },
     async updatePluginWebhook() {
       const { ticketId } = HDE.getState()
-      console.log(ticketId)
-      const webHookUrl =
-        'https://devtest.helpdeskeddy.com/api/v2/plugins/BgyciywBaBqPuiXoJXac/todo-list'
-      await HDE.request({
-        url: webHookUrl,
+      const { webHook } = HDE.vars
+
+      const { data } = await HDE.request({
+        url: webHook,
         method: 'POST',
         contentType: 'application/json',
         data: {
@@ -112,14 +111,8 @@ export default {
           toDoListData: JSON.stringify(this.store.toDoLists),
         },
       })
-      console.log('SENT TO WEBHOOK')
 
-      const { data } = await HDE.webhook({
-        endpoint: 'todo-list',
-        value: ticketId,
-      })
-
-      console.log('GET INFO FROM WH', data.data)
+      console.log('SENT TO WEBHOOK', data)
     },
     editItem(index) {
       if (!this.toDoList[index].done) {

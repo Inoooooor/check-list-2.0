@@ -30,7 +30,7 @@ export const useToDoListStore = defineStore('toDoLists', () => {
     const listEntries = Object.entries(hdeVarsObj)
 
     const isToDoList = (hdeVarName) => {
-      const filterNames = ['fieldID']
+      const filterNames = ['fieldID', 'webHook']
       return !filterNames.includes(hdeVarName)
     }
 
@@ -52,17 +52,32 @@ export const useToDoListStore = defineStore('toDoLists', () => {
     return defaultLists
   }
 
-  const initToDoLists = () => {
-    const { fieldID } = HDE.vars
+  const initToDoLists = async () => {
+    const { ticketId } = HDE.getState()
+    // const webHookUrl =
+    //   'https://devtest.helpdeskeddy.com/api/v2/plugins/BgyciywBaBqPuiXoJXac/todo-list'
 
-    if (!fieldID) throw new Error('Отстутвует переменная fieldID')
+    const { data } = await HDE.webhook({
+      endpoint: 'todo-list',
+      value: ticketId,
+    })
 
-    const customFieldData = HDE.getState().ticketValues.customFields[fieldID]
-
-    if (customFieldData) toDoLists.value = JSON.parse(customFieldData)
+    if (data) toDoLists.value = JSON.parse(data.data.toDoListData)
     else toDoLists.value = initDefaultLists(HDE.vars)
+    console.log('GET INFO FROM WH', data)
 
-    if (DEV) console.log('from init', toDoLists.value)
+    return
+    /////////////////////////////////////////
+    // const { fieldID } = HDE.vars
+
+    // if (!fieldID) throw new Error('Отстутвует переменная fieldID')
+
+    // const customFieldData = HDE.getState().ticketValues.customFields[fieldID]
+
+    // if (customFieldData) toDoLists.value = JSON.parse(customFieldData)
+    // else toDoLists.value = initDefaultLists(HDE.vars)
+
+    // if (DEV) console.log('from init', toDoLists.value)
   }
 
   return { toDoLists, initToDoLists }
