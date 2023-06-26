@@ -56,7 +56,7 @@ export const useToDoListStore = defineStore('toDoLists', () => {
     const { ticketId } = HDE.getState()
     try {
       const { data } = await HDE.webhook({
-        endpoint: 'todo-list',
+        endpoint: 'toDoList',
         value: ticketId,
       })
 
