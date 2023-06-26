@@ -6,17 +6,7 @@ console.log(HDE.getState())
 
 const store = useToDoListStore()
 
-const hideCustomField = () => {
-  const { fieldID } = HDE.vars
-  window.parent.document.querySelector(
-    `#ticket-custom-field-${fieldID}`
-  ).parentElement.parentElement.parentElement.parentElement.style.display =
-    'none'
-}
-
 store.initToDoLists()
-
-hideCustomField()
 </script>
 
 <template>

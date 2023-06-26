@@ -21,8 +21,8 @@ export default {
   data: () => {
     return {
       toDoList: [],
-      fieldID: HDE.vars.fieldID,
-      defaultCheckList: HDE.vars.defaultCheckList,
+      webHook: HDE.vars.webHook,
+      ticketId: HDE.getState().ticketId,
       ticketValues: HDE.getState().ticketValues,
       activeNames: ['1'],
       DEV: import.meta.env.DEV,
@@ -90,29 +90,25 @@ export default {
     initToDoList() {
       this.toDoList = this.store.toDoLists[this.toDoIndex].checklist
     },
-    updateFieldData() {
-      HDE.emit('setTicketCustomFieldValue', {
-        customFieldId: this.fieldID,
-        value: JSON.stringify(this.store.toDoLists),
-      })
-      this.disableAllEditing()
-      this.updatePluginWebhook()
-    },
-    async updatePluginWebhook() {
-      const { ticketId } = HDE.getState()
-      const { webHook } = HDE.vars
+    async updateFieldData() {
+      try {
+        const { data } = await HDE.request({
+          url: this.webHook,
+          method: 'POST',
+          contentType: 'application/json',
+          data: {
+            ticketId: this.ticketId,
+            toDoListData: JSON.stringify(this.store.toDoLists),
+          },
+        })
+        this.disableAllEditing()
 
-      const { data } = await HDE.request({
-        url: webHook,
-        method: 'POST',
-        contentType: 'application/json',
-        data: {
-          ticketId: ticketId,
-          toDoListData: JSON.stringify(this.store.toDoLists),
-        },
-      })
+        if (this.DEV) console.log('SENT TO WEBHOOK', data)
 
-      console.log('SENT TO WEBHOOK', data)
+        if (data?.errors) throw new Error('Ошибка сохранения')
+      } catch (error) {
+        console.error(error)
+      }
     },
     editItem(index) {
       if (!this.toDoList[index].done) {
