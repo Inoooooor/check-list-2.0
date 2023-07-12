@@ -105,6 +105,7 @@ export default {
 
         if (this.DEV) console.log('SENT TO WEBHOOK', data)
 
+        if (!data) throw new Error('Вебхук отстутствует или указан неверно')
         if (data?.errors) throw new Error('Ошибка сохранения')
       } catch (error) {
         console.error(error)
