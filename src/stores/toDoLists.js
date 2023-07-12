@@ -30,8 +30,6 @@ export const useToDoListStore = defineStore('toDoLists', () => {
   const initDefaultLists = (hdeVarsObj) => {
     const listEntries = Object.entries(hdeVarsObj)
 
-    webHookErrorHandler(listEntries)
-
     const isToDoList = (hdeVarName) => {
       const filterNames = ['webHook']
       return !filterNames.includes(hdeVarName)
@@ -58,6 +56,8 @@ export const useToDoListStore = defineStore('toDoLists', () => {
   const initToDoLists = async () => {
     const { ticketId } = HDE.getState()
     try {
+      webHookErrorHandler(HDE.vars)
+
       const { data } = await HDE.webhook({
         endpoint: 'toDoList',
         value: ticketId,
