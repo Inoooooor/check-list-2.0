@@ -8,5 +8,4 @@ export default function (hdeVars) {
 
   if (!webHook) throw new Error('Отстутствует переменная Webhook')
   if (!webHook[1]) throw new Error('Отстутствует значение переменной Webhook')
-  // if ()
 }
