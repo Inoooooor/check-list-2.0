@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import HDE from '../plugin'
+import webHookErrorHandler from './utilities/webHookErrorHandler'
 
 export const useToDoListStore = defineStore('toDoLists', () => {
   const toDoLists = ref(null)
@@ -28,6 +29,8 @@ export const useToDoListStore = defineStore('toDoLists', () => {
 
   const initDefaultLists = (hdeVarsObj) => {
     const listEntries = Object.entries(hdeVarsObj)
+
+    webHookErrorHandler(listEntries)
 
     const isToDoList = (hdeVarName) => {
       const filterNames = ['webHook']
@@ -68,7 +71,7 @@ export const useToDoListStore = defineStore('toDoLists', () => {
         console.log('from init', toDoLists.value)
       }
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 
